@@ -25,7 +25,7 @@ def save_csv(csvpath, header, data):
     # if the dir does not exist, create the dir
     if not os.path.exists(dir):
         print(f"Dir '{dir}' does not exist - We will create it first")
-        os.makedirs(dir, mode, exist_ok =True)
+        os.makedirs(dir, exist_ok =True)
 
     with open(csvpath, "w", newline='') as csvfile:
         csvwriter = csv.writer(csvfile, delimiter=",")
