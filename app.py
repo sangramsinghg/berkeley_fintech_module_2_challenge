@@ -12,6 +12,7 @@ import questionary
 from pathlib import Path
 
 from qualifier.utils.fileio import load_csv
+from qualifier.utils.fileio import save_csv
 
 from qualifier.utils.calculators import (
     calculate_monthly_debt_ratio,
@@ -22,37 +23,6 @@ from qualifier.filters.max_loan_size import filter_max_loan_size
 from qualifier.filters.credit_score import filter_credit_score
 from qualifier.filters.debt_to_income import filter_debt_to_income
 from qualifier.filters.loan_to_value import filter_loan_to_value
-
-import csv
-import os
-def save_csv(csvpath, header, data):
-    """Reads the CSV file from path provided.
-
-    Args:
-        csvpath (Path): The csv file path.
-
-    Returns:
-        A list of lists that contains the rows of data from the CSV file.
-
-    """
-    dir_file = os.path.split(csvpath)
-    dir = dir_file[0]
-    file = dir_file[1]
-    print(f"writing to '{csvpath}' - dir: '{dir}', file: '{file}'")
-
-    # if the dir does not exist, create the dir
-    if not os.path.exists(dir):
-        print(f"Dir '{dir}' does not exist - We will create it first")
-        os.makedirs(dir, mode, exist_ok =True)
-    with open(csvpath, "w", newline='') as csvfile:
-        csvwriter = csv.writer(csvfile, delimiter=",")
-
-        # Write the CSV Header
-        csvwriter.writerow(header)
-
-        # Write the CSV data
-        for row in data:
-            csvwriter.writerow(row)
 
 def load_bank_data():
     """Ask for the file path to the latest banking data and load the CSV file.
