@@ -4,11 +4,11 @@ Determines home loan eligibility from a set of loans based on certain loan quali
 saves the qualifying loans to a csv file based on user preference. 
 
 This project determines which loans the user qualifies for from a list of loan providers based on the following loan qualification criteria:
-    1. Current Credit Score of the applicant
-    2. Loan Size requested by the applicant
-    3. Monthly Debt Payments of the applicant
-    4. Monthly Income of the applicant
-    5. Estimated Home Value for which loan is requested.
+    * Current Credit Score of the applicant
+    * Loan Size requested by the applicant
+    * Monthly Debt Payments of the applicant
+    * Monthly Income of the applicant
+    * Estimated Home Value for which loan is requested.
 
 ---
 
@@ -24,7 +24,7 @@ This project uses python 3.7 along with the following packages:
 
 other packages:
 
-* CSV, pathlib, OS, sys
+* csv, pathlib, os, sys
 
 ---
 
@@ -85,4 +85,3 @@ Sangram Singh (sangramsinghg@yahoo.com)
 ## License
 
 MIT
-
