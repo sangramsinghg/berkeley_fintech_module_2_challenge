@@ -163,11 +163,13 @@ def find_qualifying_loans(bank_data, credit_score, debt, income, loan, home_valu
     return bank_data_filtered
 
 
-def save_qualifying_loans(qualifying_loans, prompt = True):
+def save_qualifying_loans(qualifying_loans, header, prompt = True):
     """Saves the qualifying loans to a CSV file.
 
     Args:
         qualifying_loans (list of lists): The qualifying bank loans.
+        header: The header to be written to the csv file
+        prompt: Do we want to prompt the user to save the loans output to a csv file
     """
     if prompt == True:
         save_the_csv = questionary.confirm("Do you want to save the loans output to a csv file?").ask()
@@ -175,12 +177,14 @@ def save_qualifying_loans(qualifying_loans, prompt = True):
         save_the_csv = True
 
     if save_the_csv == True:
-        csvpath = questionary.text("Please provide the csv path (ending in .csv) where you want to save the output:").ask()
+        csvpath = questionary.text("Please provide the csv path (ending in .csv) where you want to save the qualifying loans:").ask()
         if check_csvpath(csvpath):
-            header = ["Lender", "Max Loan Amount", "Max LTV", "Max DTI", "Min Credit Score", "Interest Rate"]
-            save_csv(csvpath, header, qualifying_loans)
+            if debug == True:
+                print(header)
+            save_csv(csvpath, header, qualifying_loans, debug)
+            print(f"Saved the qualifying loans to '{csvpath}'")
         else:
-            save_qualifying_loans(qualifying_loans, False)
+            save_qualifying_loans(qualifying_loans, header, False)
     else:
         print("As desired, we are not saving the output in a csv file")
 
@@ -204,7 +208,7 @@ def run(verbose = False, help = False, v = False, h = False):
         print(f"Verbose mode: setting debug to {debug}")
 
     # Load the latest Bank data
-    bank_data = load_bank_data()
+    header, bank_data = load_bank_data()
 
     # Get the applicant's information
     credit_score, debt, income, loan_amount, home_value = get_applicant_info()
@@ -215,7 +219,7 @@ def run(verbose = False, help = False, v = False, h = False):
     )
 
     # Save qualifying loans
-    save_qualifying_loans(qualifying_loans)
+    save_qualifying_loans(qualifying_loans, header)
 
 
 if __name__ == "__main__":
