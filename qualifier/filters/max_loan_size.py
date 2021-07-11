@@ -18,9 +18,13 @@ def filter_max_loan_size(loan_amount, bank_list):
         A list of qualifying bank loans.
     """
 
+    # create an empty list
     loan_size_approval_list = []
 
+    # go throught all the banks to find which banks meet the loan size requirements
     for bank in bank_list:
+        # select the bank if the user's loan request meets the bank's maximum loan requirement
         if loan_amount <= int(bank[1]):
             loan_size_approval_list.append(bank)
+    # return the list of qualifying banks
     return loan_size_approval_list
