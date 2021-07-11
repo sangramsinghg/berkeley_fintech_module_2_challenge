@@ -40,6 +40,16 @@ loan_data = [
     ["Bank of Stodge & Stiff - Starter Plus", '100000', '0.8', '0.35', '680', '4.35']
 ]
 
+def save_to_csv_and_validate_bank_loan_data(csvpath, header, bank_loan_data, loan_index_list):
+    fileio.save_csv(csvpath, header, bank_loan_data)
+    assert Path(csvpath).exists() == True
+    header_from_saved_file, data_from_saved_file = fileio.load_csv(Path(csvpath))
+    assert header == header_from_saved_file
+    
+    loan_index = 0
+    for row in data_from_saved_file:
+        assert loan_data[loan_index_list[loan_index]] == row
+        loan_index += 1
 
 def test_save_csv():
     qualifying_loans_path = "./data/output/qualifying_loans.csv"
@@ -108,58 +118,28 @@ def test_filters_elaborate():
     loan_to_value_ratio = 0.84
 
     loans_initial_path = './tests/output_elaborate_validation/loans_initial.csv'
-    fileio.save_csv(loans_initial_path, header, bank_data)
-    header_from_saved_file, data_from_saved_file = fileio.load_csv(Path(loans_initial_path))
-    assert header == header_from_saved_file
-    loan_index = 0
-    for row in data_from_saved_file:
-        assert loan_data[loan_index] == row
-        loan_index += 1
+    loan_index_list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+    save_to_csv_and_validate_bank_loan_data(loans_initial_path, header, bank_data, loan_index_list)
 
     bank_data_filtered = filter_max_loan_size(loan, bank_data)
     loans_max_loan_path = './tests/output_elaborate_validation/loans_max_loan.csv'
-    fileio.save_csv(loans_max_loan_path, header, bank_data_filtered)
-    header_from_saved_file, data_from_saved_file = fileio.load_csv(Path(loans_max_loan_path))
-    assert header == header_from_saved_file
-    loan_index = 0
     loan_index_list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 18, 20]
-    for row in data_from_saved_file:
-        assert loan_data[loan_index_list[loan_index]] == row
-        loan_index += 1
+    save_to_csv_and_validate_bank_loan_data(loans_max_loan_path, header, bank_data_filtered, loan_index_list)
 
     bank_data_filtered = filter_credit_score(current_credit_score, bank_data_filtered)
     loans_credit_score_path = './tests/output_elaborate_validation/loans_credit_score.csv'
-    fileio.save_csv(loans_credit_score_path, header, bank_data_filtered)
-    header_from_saved_file, data_from_saved_file = fileio.load_csv(Path(loans_credit_score_path))
-    assert header == header_from_saved_file
-    loan_index = 0
     loan_index_list = [0, 5, 9, 12, 13, 14, 16, 18, 20]
-    for row in data_from_saved_file:
-        assert loan_data[loan_index_list[loan_index]] == row
-        loan_index += 1
+    save_to_csv_and_validate_bank_loan_data(loans_credit_score_path, header, bank_data_filtered, loan_index_list)
 
     bank_data_filtered = filter_debt_to_income(monthly_debt_ratio, bank_data_filtered)
     loans_debt_ratio_path = './tests/output_elaborate_validation/loans_debt_ratio.csv'
-    fileio.save_csv(loans_debt_ratio_path, header, bank_data_filtered)
-    header_from_saved_file, data_from_saved_file = fileio.load_csv(Path(loans_debt_ratio_path))
-    assert header == header_from_saved_file
-    loan_index = 0
     loan_index_list = [0, 5, 9, 12, 13, 14, 18, 20]
-    for row in data_from_saved_file:
-        assert loan_data[loan_index_list[loan_index]] == row
-        loan_index += 1
+    save_to_csv_and_validate_bank_loan_data(loans_debt_ratio_path, header, bank_data_filtered, loan_index_list)
 
     bank_data_filtered = filter_loan_to_value(loan_to_value_ratio, bank_data_filtered)
 
     # Test the save csv file functionality 
     qualifying_loans_path = './tests/output_elaborate_validation/qualifying_loans_final.csv'
-    fileio.save_csv(qualifying_loans_path, header, bank_data_filtered)
-    assert Path(qualifying_loans_path).exists() == True
-
-    header_from_saved_file, data_from_saved_file = fileio.load_csv(Path(qualifying_loans_path))
-    assert header == header_from_saved_file
-    loan_index = 0
     loan_index_list = [0, 5, 9, 12, 14, 18]
-    for row in data_from_saved_file:
-        assert loan_data[loan_index_list[loan_index]] == row
-        loan_index += 1
+    save_to_csv_and_validate_bank_loan_data(qualifying_loans_path, header, bank_data_filtered, loan_index_list)
+    
