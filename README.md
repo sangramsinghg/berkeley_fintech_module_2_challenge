@@ -3,7 +3,7 @@
 Determines home loan eligibility from a set of loans based on certain loan qualification criteria and 
 saves the qualifying loans to a csv file based on user preference. 
 
-This project determines which loans the user qualifies for from a list of loan providers based on the following loan qualification criteria:
+This project determines which loans the user qualifies for from a list of provided loans based on the following loan qualification criteria:
 * Current Credit Score of the applicant
 * Loan Size requested by the applicant
 * Monthly Debt Payments of the applicant
